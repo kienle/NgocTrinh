@@ -19,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdView;
 import com.kienle.famous.people.ngoctrinh.adapter.GridViewImageAdapter;
 import com.kienle.famous.people.ngoctrinh.helper.AppConstant;
 import com.kienle.famous.people.ngoctrinh.helper.Config;
@@ -43,6 +45,9 @@ public class GridViewActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_grid_view);
 
+		AdView adView = (AdView) findViewById(R.id.adView);
+		adView.loadAd(new AdRequest());
+		
 		mGridView = (GridView) findViewById(R.id.grid_view);
 
 		mPrefs = getSharedPreferences("com.kienle.famous.people.hotgirl", MODE_PRIVATE);
