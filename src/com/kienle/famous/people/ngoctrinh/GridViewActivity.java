@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.location.Address;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,7 +47,9 @@ public class GridViewActivity extends Activity {
 		setContentView(R.layout.activity_grid_view);
 
 		AdView adView = (AdView) findViewById(R.id.adView);
-		adView.loadAd(new AdRequest());
+		AdRequest request = new AdRequest();
+		request.setGender(AdRequest.Gender.MALE);
+		adView.loadAd(request);
 		
 		mGridView = (GridView) findViewById(R.id.grid_view);
 
