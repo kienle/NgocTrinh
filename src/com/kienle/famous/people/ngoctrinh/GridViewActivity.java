@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.location.Address;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,9 +18,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 
-import com.google.ads.AdRequest;
-import com.google.ads.AdView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.kienle.famous.people.ngoctrinh.adapter.GridViewImageAdapter;
 import com.kienle.famous.people.ngoctrinh.helper.AppConstant;
 import com.kienle.famous.people.ngoctrinh.helper.Config;
@@ -41,19 +42,26 @@ public class GridViewActivity extends Activity {
 	private SharedPreferences mPrefs;
 	private ProgressDialog mProgressDialog;
 
+	private AdView mAdView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_grid_view);
 
-		AdView adView = (AdView) findViewById(R.id.adView);
-		AdRequest request = new AdRequest();
-		request.setGender(AdRequest.Gender.MALE);
-		adView.loadAd(request);
+		mAdView = new AdView(this);
+        mAdView.setAdUnitId(getResources().getString(R.string.ad_unit_id));
+        mAdView.setAdSize(AdSize.BANNER);
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.mainLayout);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        layout.addView(mAdView, layout.getChildCount(), params);
+        mAdView.loadAd(new AdRequest.Builder().build());
 		
 		mGridView = (GridView) findViewById(R.id.grid_view);
 
-		mPrefs = getSharedPreferences("com.kienle.famous.people.hotgirl", MODE_PRIVATE);
+		mPrefs = getSharedPreferences("com.kienle.famous.people.ngoctrinh", MODE_PRIVATE);
 		mProgressDialog = DialogUtil.createProgressDialog(this, StringUtil.getString(R.string.copying_data));
 		
 		if (mPrefs.getBoolean("first_run", true)) {
